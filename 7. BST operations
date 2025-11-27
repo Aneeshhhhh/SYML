@@ -1,0 +1,92 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* getNode(int x) {
+    Node* t = new Node;
+    t->data = x;
+    t->left = t->right = NULL;
+    return t;
+}
+
+Node* insertBST(Node* root, int x) {
+    if (root == NULL) return getNode(x);
+    if (x < root->data) root->left = insertBST(root->left, x);
+    else root->right = insertBST(root->right, x);
+    return root;
+}
+
+Node* minNode(Node* root) {
+    while (root->left != NULL)
+        root = root->left;
+    return root;
+}
+
+Node* deleteBST(Node* root, int x) {
+    if (root == NULL) return root;
+
+    if (x < root->data) root->left = deleteBST(root->left, x);
+    else if (x > root->data) root->right = deleteBST(root->right, x);
+    else {
+        if (root->left == NULL) {
+            Node* t = root->right;
+            delete root;
+            return t;
+        }
+        if (root->right == NULL) {
+            Node* t = root->left;
+            delete root;
+            return t;
+        }
+        Node* t = minNode(root->right);
+        root->data = t->data;
+        root->right = deleteBST(root->right, t->data);
+    }
+    return root;
+}
+
+void inorder(Node* r) {
+    if (r == NULL) return;
+    inorder(r->left);
+    cout << r->data << " ";
+    inorder(r->right);
+}
+
+void preorder(Node* r) {
+    if (r == NULL) return;
+    cout << r->data << " ";
+    preorder(r->left);
+    preorder(r->right);
+}
+
+void postorder(Node* r) {
+    if (r == NULL) return;
+    postorder(r->left);
+    postorder(r->right);
+    cout << r->data << " ";
+}
+
+int main() {
+    Node* root = NULL;
+
+    root = insertBST(root, 40);
+    root = insertBST(root, 20);
+    root = insertBST(root, 10);
+    root = insertBST(root, 30);
+    root = insertBST(root, 60);
+    root = insertBST(root, 50);
+    root = insertBST(root, 70);
+
+    root = deleteBST(root, 20);
+
+    inorder(root);
+    cout << endl;
+    preorder(root);
+    cout << endl;
+    postorder(root);
+}

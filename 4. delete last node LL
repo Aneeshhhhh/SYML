@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* head = NULL;
+
+void deleteLast() {
+    if (head == NULL) return;
+    if (head->next == NULL) {
+        delete head;
+        head = NULL;
+        return;
+    }
+
+    Node* p = head;
+    while (p->next->next != NULL)
+        p = p->next;
+
+    delete p->next;
+    p->next = NULL;
+}
+
+int main() {
+    Node* a = new Node{10, NULL};
+    Node* b = new Node{20, NULL};
+    Node* c = new Node{30, NULL};
+    a->next = b;
+    b->next = c;
+    head = a;
+
+    deleteLast();
+
+    Node* p = head;
+    while (p != NULL) {
+        cout << p->data << " ";
+        p = p->next;
+    }
+}

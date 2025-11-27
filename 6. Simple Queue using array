@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+class Queue {
+    int a[100], front, rear;
+public:
+    Queue() { front = 0; rear = -1; }
+
+    void enqueue(int x) {
+        if (rear < 99)
+            a[++rear] = x;
+    }
+
+    int dequeue() {
+        if (front <= rear)
+            return a[front++];
+        return -1;
+    }
+
+    void display() {
+        for (int i = front; i <= rear; i++)
+            cout << a[i] << " ";
+    }
+};
+
+int main() {
+    Queue q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.dequeue();
+    q.display();
+}
